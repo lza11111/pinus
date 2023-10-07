@@ -1,5 +1,3 @@
-declare let Buffer: any;
-
 let PKG_HEAD_BYTES = 4;
 let MSG_FLAG_BYTES = 1;
 let MSG_ROUTE_CODE_BYTES = 2;
@@ -146,10 +144,10 @@ export namespace Message {
         msgLen += MSG_ROUTE_LEN_BYTES;
         if (route) {
           route = Protocol.strencode(route as string);
-          if ((route as string).length > 255) {
+          if (route.length > 255) {
             throw new Error('route maxlength is overflow');
           }
-          msgLen += (route as string).length;
+          msgLen += route.length;
         }
       }
     }
@@ -206,7 +204,7 @@ export namespace Message {
       let m = 0;
       let i = 0;
       do {
-        m = parseInt(bytes[offset]);
+        m = bytes[offset];
         id += (m & 0x7f) << (7 * i);
         offset++;
         i++;
